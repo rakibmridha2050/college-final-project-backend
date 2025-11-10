@@ -3,6 +3,7 @@ package com.rakib.collegeERPsystem.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rakib.collegeERPsystem.entity.payment.FeeWaiver;
 import com.rakib.collegeERPsystem.entity.payment.StudentFee;
+import com.rakib.collegeERPsystem.entity.payment2.Payment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -78,10 +79,14 @@ public class Student extends BaseEntity {
     private Section section;
 
     // 🔗 One Student can have many Fee Invoices
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StudentFee> studentFees;
+//    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<StudentFee> studentFees;
 
     // 🔗 One Student can have multiple Fee Waivers
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeeWaiver> feeWaivers;
+
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> payments;
 }

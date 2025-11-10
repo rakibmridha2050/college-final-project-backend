@@ -12,6 +12,7 @@ import java.util.List;
 public class StudentFeeDTO {
     private Long id;
     private Long studentId;
+    private String semenster;
     private String studentName;
     private Long feeStructureId;
     private String feeStructureName;

@@ -41,10 +41,10 @@ public class StudentFeeServiceImpl implements StudentFeeService {
                     .orElseThrow(() -> new RuntimeException("Fee structure not found"));
 
             // Check if invoice already exists for this student, semester, and session
-            if (studentFeeRepository.findByStudentAndSemesterAndSession(
-                    student.getId(), studentFeeDTO.getSemester(), studentFeeDTO.getAcademicSession()).isPresent()) {
-                throw new RuntimeException("Fee invoice already exists for this student in the given semester and session");
-            }
+//            if (studentFeeRepository.findByStudentAndSemesterAndSession(
+//                    student.getId(), studentFeeDTO.getSemester(), studentFeeDTO.getAcademicSession()).isPresent()) {
+//                throw new RuntimeException("Fee invoice already exists for this student in the given semester and session");
+//            }
 
             String invoiceNumber = generateInvoiceNumber();
 
@@ -53,8 +53,8 @@ public class StudentFeeServiceImpl implements StudentFeeService {
                     .issueDate(LocalDate.now())
                     .dueDate(studentFeeDTO.getDueDate())
                     .totalAmount(feeStructure.getTotalAmount())
-                    .academicSession(studentFeeDTO.getAcademicSession())
-                    .semester(studentFeeDTO.getSemester())
+//                    .academicSession(studentFeeDTO.getAcademicSession())
+//                    .semester(studentFeeDTO.getSemester())
                     .student(student)
                     .feeStructure(feeStructure)
                     .status(FeeInvoiceStatus.GENERATED)

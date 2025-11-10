@@ -21,7 +21,7 @@ public class FeeStructure extends BaseEntity {
 
     @Column(nullable = false)
     @NotBlank(message = "Program name is required")
-    private String program; // e.g. BSc in CSE, BBA, etc.
+    private String program;
 
     @Column(nullable = false)
     @Min(value = 1)
@@ -29,7 +29,7 @@ public class FeeStructure extends BaseEntity {
 
     @Column(name = "student_category", nullable = false)
     @NotBlank(message = "Student category is required")
-    private String studentCategory; // Regular, Evening, International
+    private String studentCategory;
 
     @Column(name = "academic_session", nullable = false)
     @NotBlank(message = "Academic session is required")
