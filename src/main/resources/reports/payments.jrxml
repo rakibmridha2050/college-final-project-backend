@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StudentPaymentsReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="550e8400-e29b-41d4-a716-446655440000">
+    <parameter name="createdBy" class="java.lang.String"/>
+    <field name="studentId" class="java.lang.String"/>
+    <field name="studentName" class="java.lang.String"/>
+    <field name="studentEmail" class="java.lang.String"/>
+    <field name="paymentId" class="java.lang.Long"/>
+    <field name="amount" class="java.lang.Double"/>
+    <field name="paymentMode" class="java.lang.String"/>
+    <field name="status" class="java.lang.String"/>
+    <field name="paymentDate" class="java.time.LocalDateTime"/>
+    <field name="receiptNo" class="java.lang.String"/>
+    <field name="remarks" class="java.lang.String"/>
+    <group name="StudentGroup">
+        <groupExpression><![CDATA[$F{studentId}]]></groupExpression>
+        <groupHeader>
+            <band height="30" splitType="Stretch">
+                <textField>
+                    <reportElement mode="Opaque" x="0" y="5" width="555" height="20" backcolor="#D3E4CD" uuid="983961b7-63cc-4ec4-9298-6ef056d90f06"/>
+                    <textElement>
+                        <font size="12" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA["Student: " + $F{studentName} + " (" + $F{studentId} + ")"]]></textFieldExpression>
+                </textField>
+            </band>
+        </groupHeader>
+    </group>
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30" uuid="e1b943fe-be1d-45aa-9bb8-53d68e8c42c4"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Student Wise Payments Report]]></text>
+            </staticText>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="20">
+            <line>
+                <reportElement x="0" y="19" width="555" height="1" uuid="7695b734-e562-4077-a306-0bc812a308f0"/>
+            </line>
+            <staticText>
+                <reportElement x="0" y="0" width="50" height="20" uuid="27a9ab4b-d143-4a6a-9413-3654dba63bb3"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="55" y="0" width="80" height="20" uuid="7f28eb46-6480-439b-9a79-c7b12cc69318"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Amount]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="140" y="0" width="80" height="20" uuid="c83773aa-bce0-4747-9101-6bd5888826cb"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Mode]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="225" y="0" width="80" height="20" uuid="3798ee08-cade-4efe-9fdf-964c59803476"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="310" y="0" width="120" height="20" uuid="b6353b19-3d12-4c90-b817-ee348a158a7a"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Payment Date]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="435" y="0" width="60" height="20" uuid="01a2d6bf-06e9-4f4f-878a-40d1c815a849"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Receipt]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="0" width="55" height="20" uuid="47d07b30-763f-481c-8248-cc11ad02c837"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Remarks]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="50" height="20" uuid="6f6e2d00-f632-4574-bff1-399a4cdbb171"/>
+                <textFieldExpression><![CDATA[$F{paymentId}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="55" y="0" width="80" height="20" uuid="e1e0e6b9-dde6-43fd-a64d-eeae02cd8794"/>
+                <textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="140" y="0" width="80" height="20" uuid="8524f367-fd13-42f3-bc51-bf6eedfaae27"/>
+                <textFieldExpression><![CDATA[$F{paymentMode}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="225" y="0" width="80" height="20" uuid="8c860ace-aeda-452f-86bd-c3d2541ef744"/>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="310" y="0" width="120" height="20" uuid="fbfde0e5-deb0-4038-9e6a-12200e6c3a8a"/>
+                <textFieldExpression><![CDATA[$F{paymentDate}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="435" y="0" width="60" height="20" uuid="67318685-e470-4d56-b4f9-4e886ac706c9"/>
+                <textFieldExpression><![CDATA[$F{receiptNo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="500" y="0" width="55" height="20" uuid="c08f87db-e8fe-4534-9044-763bc21ee3cf"/>
+                <textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
