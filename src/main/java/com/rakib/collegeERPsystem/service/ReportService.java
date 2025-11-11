@@ -48,4 +48,31 @@ public class ReportService {
 
         return JasperFillManager.fillReport(jasperReport, parameters, dataSource);
     }
+
+    public JasperPrint getSinglePayslip(Long paymentId) throws IOException, JRException {
+        InputStream reportStream = new ClassPathResource("reports/payslip.jrxml").getInputStream();
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id " + paymentId));
+
+        PaymentDTO dto = PaymentDTO.builder()
+                .id(payment.getId())
+                .studentId(Long.valueOf(payment.getStudent().getStudentId()))
+                .amount(payment.getAmount())
+                .paymentMode(payment.getPaymentMode())
+                .status(payment.getStatus())
+                .paymentDate(payment.getPaymentDate())
+                .receiptNo(payment.getReceiptNo())
+                .remarks(payment.getRemarks())
+                .build();
+
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(java.util.List.of(dto));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "Rakib");
+
+        return JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+    }
+
+
 }

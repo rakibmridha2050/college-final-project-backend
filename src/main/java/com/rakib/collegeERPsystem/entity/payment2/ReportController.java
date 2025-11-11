@@ -97,4 +97,75 @@ public class ReportController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .body(outputStream.toByteArray());
     }
+
+    @GetMapping("/payslip/{paymentId}/{format}")
+    public ResponseEntity<byte[]> generateSinglePayslip(
+            @PathVariable Long paymentId,
+            @PathVariable String format) throws IOException, JRException {
+
+        JasperPrint jasperPrint = reportService.getSinglePayslip(paymentId);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        String fileName;
+        MediaType mediaType;
+
+        switch (format.toLowerCase()) {
+            case "pdf":
+                JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+                fileName = "payslip_" + paymentId + ".pdf";
+                mediaType = MediaType.APPLICATION_PDF;
+                break;
+
+            case "html":
+                HtmlExporter htmlExporter = new HtmlExporter();
+                htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                ByteArrayOutputStream htmlOutput = new ByteArrayOutputStream();
+                htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(htmlOutput));
+                htmlExporter.exportReport();
+                fileName = "payslip_" + paymentId + ".html";
+                mediaType = MediaType.TEXT_HTML;
+                outputStream = htmlOutput;
+                break;
+
+            case "xlsx":
+                JRXlsxExporter xlsxExporter = new JRXlsxExporter();
+                xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+                xlsxExporter.exportReport();
+                fileName = "payslip_" + paymentId + ".xlsx";
+                mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                break;
+
+            case "csv":
+                JRCsvExporter csvExporter = new JRCsvExporter();
+                csvExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                csvExporter.setExporterOutput(new SimpleWriterExporterOutput(outputStream));
+                csvExporter.exportReport();
+                fileName = "payslip_" + paymentId + ".csv";
+                mediaType = MediaType.TEXT_PLAIN;
+                break;
+
+            case "docx":
+                JRDocxExporter docxExporter = new JRDocxExporter();
+                docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                docxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+                docxExporter.exportReport();
+                fileName = "payslip_" + paymentId + ".docx";
+                mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                break;
+
+            default:
+                return ResponseEntity.badRequest()
+                        .body(("⚠️ Invalid format: " + format).getBytes());
+        }
+
+        return ResponseEntity.ok()
+                .contentType(mediaType)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .body(outputStream.toByteArray());
+    }
+
+
+
+
 }
