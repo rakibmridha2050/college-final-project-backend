@@ -2,10 +2,13 @@ package com.rakib.collegeERPsystem.entity.exam;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rakib.collegeERPsystem.entity.BaseEntity;
 import com.rakib.collegeERPsystem.entity.Course;
+import com.rakib.collegeERPsystem.entity.Faculty;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,32 +18,39 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Exam {
+public class Exam extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long examId;
-
+    @Column(nullable = false)
     private String examTitle;
-    private String academicYear;
-    private String semester;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(nullable = false)
+    private LocalDateTime examDate;
+
+    @Column(nullable = false)
+    private Integer duration; // in minutes
+
+    @Column(nullable = false)
     private Double totalMarks;
-    private Boolean isPublished;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ExamType examType; // MIDTERM, FINAL, QUIZ, ASSIGNMENT
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
-
-    private List<Question> questions;
-
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StudentExamRegistration> registrations;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExamResult> results;
+    private List<ExamResult> examResults = new ArrayList<>();
+
+    @Column(nullable = false)
+    private Boolean isPublished = false;
 }
+

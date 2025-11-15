@@ -2,80 +2,76 @@ package com.rakib.collegeERPsystem.controller;
 
 
 
+
+import com.rakib.collegeERPsystem.dto.exam.ExamCreateDTO;
 import com.rakib.collegeERPsystem.dto.exam.ExamDTO;
-import com.rakib.collegeERPsystem.dto.exam.ExamRequestDTO;
+import com.rakib.collegeERPsystem.dto.exam.ExamUpdateDTO;
 import com.rakib.collegeERPsystem.entity.exam.Exam;
 
 import com.rakib.collegeERPsystem.service.ExamService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/exams")
 @RequiredArgsConstructor
 public class ExamController {
 
+
+
     private final ExamService examService;
 
-    // Create or update an exam
-//    @PostMapping
-//    public ResponseEntity<ExamDTO> saveExam(@RequestBody Exam exam) {
-//        ExamDTO savedExam = examService.saveExam(exam);
-//        return ResponseEntity.ok(savedExam);
-//    }
-
     @PostMapping
-    public ResponseEntity<Exam> createExam(@RequestBody ExamRequestDTO examRequestDTO) {
-        Exam savedExam = examService.createExam(examRequestDTO);
-        return ResponseEntity.ok(savedExam);
+    public ResponseEntity<ExamDTO> createExam(@Valid @RequestBody ExamCreateDTO examCreateDTO,
+                                              @RequestHeader("X-Faculty-Id") Long facultyId) {
+        ExamDTO createdExam = examService.createExam(examCreateDTO, facultyId);
+        return ResponseEntity.ok(createdExam);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Exam> getExam(@PathVariable Long id) {
-//        return examService.getExamById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
+    @PutMapping("/{examId}")
+    public ResponseEntity<ExamDTO> updateExam(@PathVariable Long examId,
+                                              @Valid @RequestBody ExamUpdateDTO examUpdateDTO,
+                                              @RequestHeader("X-Faculty-Id") Long facultyId) {
+        ExamDTO updatedExam = examService.updateExam(examId, examUpdateDTO, facultyId);
+        return ResponseEntity.ok(updatedExam);
+    }
 
-    // Get all exams
-    @GetMapping
-    public ResponseEntity<List<ExamDTO>> getAllExams() {
-        List<ExamDTO> exams = examService.getAllExams();
+    @GetMapping("/faculty")
+    public ResponseEntity<List<ExamDTO>> getFacultyExams(@RequestHeader("X-Faculty-Id") Long facultyId) {
+        List<ExamDTO> exams = examService.getExamsByFaculty(facultyId);
         return ResponseEntity.ok(exams);
     }
 
-    // Get exam by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<ExamDTO> getExamById(@PathVariable("id") Long id) {
-        return examService.getExamById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{examId}")
+    public ResponseEntity<ExamDTO> getExam(@PathVariable Long examId,
+                                           @RequestHeader("X-Faculty-Id") Long facultyId) {
+        ExamDTO exam = examService.getExamById(examId, facultyId);
+        return ResponseEntity.ok(exam);
     }
 
-    // Delete exam by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteExam(@PathVariable("id") Long id) {
-        examService.deleteExam(id);
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<List<ExamDTO>> getCourseExams(@PathVariable Long courseId) {
+        List<ExamDTO> exams = examService.getExamsByCourse(courseId);
+        return ResponseEntity.ok(exams);
+    }
+
+    @DeleteMapping("/{examId}")
+    public ResponseEntity<Void> deleteExam(@PathVariable Long examId,
+                                           @RequestHeader("X-Faculty-Id") Long facultyId) {
+        examService.deleteExam(examId, facultyId);
         return ResponseEntity.noContent().build();
     }
 
-    // Get exams by course ID
-    @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<ExamDTO>> getExamsByCourse(@PathVariable("courseId") Long courseId) {
-        List<ExamDTO> exams = examService.getExamsByCourseId(courseId);
-        return ResponseEntity.ok(exams);
-    }
-
-    // Get exams by academic year and semester
-    @GetMapping("/search")
-    public ResponseEntity<List<ExamDTO>> getExamsByYearAndSemester(
-            @RequestParam String academicYear,
-            @RequestParam String semester) {
-        List<ExamDTO> exams = examService.getExamsByYearAndSemester(academicYear, semester);
-        return ResponseEntity.ok(exams);
+    @PostMapping("/{examId}/publish")
+    public ResponseEntity<Void> publishExam(@PathVariable Long examId,
+                                            @RequestHeader("X-Faculty-Id") Long facultyId) {
+        examService.publishExam(examId, facultyId);
+        return ResponseEntity.ok().build();
     }
 }
 

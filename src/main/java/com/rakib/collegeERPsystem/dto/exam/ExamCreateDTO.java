@@ -1,30 +1,29 @@
 package com.rakib.collegeERPsystem.dto.exam;
 
+
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
-import java.util.List;
+
 @Getter
 @Setter
-public class ExamDTO {
-    private Long id;
-
+public class ExamCreateDTO {
     @NotBlank(message = "Exam title is required")
-    @Size(max = 255, message = "Exam title must not exceed 255 characters")
     private String examTitle;
 
     private String description;
 
     @NotNull(message = "Exam date is required")
-    @Future(message = "Exam date must be in the future")
     private LocalDateTime examDate;
 
     @NotNull(message = "Duration is required")
-    @Min(value = 1, message = "Duration must be at least 1 minute")
+    @Min(value = 1)
     private Integer duration;
 
     @NotNull(message = "Total marks are required")
-    @Positive(message = "Total marks must be positive")
+    @Positive
     private Double totalMarks;
 
     @NotBlank(message = "Exam type is required")
@@ -32,8 +31,4 @@ public class ExamDTO {
 
     @NotNull(message = "Course ID is required")
     private Long courseId;
-
-    private String courseName;
-    private String facultyName;
-    private Boolean isPublished;
 }

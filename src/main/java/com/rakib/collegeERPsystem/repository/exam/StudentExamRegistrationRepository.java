@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface StudentExamRegistrationRepository extends JpaRepository<StudentExamRegistration, Long> {
 
-    List<StudentExamRegistration> findByExam_ExamId(Long examId);
-
-    List<StudentExamRegistration> findByStudent_Id(Long studentId);
-
-    Optional<StudentExamRegistration> findByExam_ExamIdAndStudent_Id(Long examId, Long studentId);
+//    List<StudentExamRegistration> findByExam_ExamId(Long examId);
+//
+//    List<StudentExamRegistration> findByStudent_Id(Long studentId);
+//
+//    Optional<StudentExamRegistration> findByExam_ExamIdAndStudent_Id(Long examId, Long studentId);
 }

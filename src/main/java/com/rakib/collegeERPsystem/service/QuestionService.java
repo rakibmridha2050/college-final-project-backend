@@ -54,13 +54,13 @@ public class QuestionService {
     /**
      * Get all questions for a specific exam
      */
-    @Transactional(readOnly = true)
-    public List<QuestionDTO> getQuestionsByExam(Long examId) {
-        List<Question> questions = questionRepository.findByExam_ExamId(examId);
-        return questions.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<QuestionDTO> getQuestionsByExam(Long examId) {
+////        List<Question> questions = questionRepository.findByExam_ExamId(examId);
+//        return questions.stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
 
     /**
      * Update a question

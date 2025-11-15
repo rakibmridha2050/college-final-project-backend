@@ -32,11 +32,11 @@ public class QuestionController {
     /**
      * Get all questions for a specific exam
      */
-    @GetMapping
-    public ResponseEntity<List<QuestionDTO>> getQuestionsByExam(@PathVariable Long examId) {
-        List<QuestionDTO> questions = questionService.getQuestionsByExam(examId);
-        return ResponseEntity.ok(questions);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<QuestionDTO>> getQuestionsByExam(@PathVariable Long examId) {
+//        List<QuestionDTO> questions = questionService.getQuestionsByExam(examId);
+//        return ResponseEntity.ok(questions);
+//    }
 
     /**
      * Update a specific question

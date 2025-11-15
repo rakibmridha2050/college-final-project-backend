@@ -1,21 +1,31 @@
 package com.rakib.collegeERPsystem.dto.exam;
 
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ExamResultDTO {
-    private Long resultId;
-    private Long examId;
-    private String examTitle;
-    private Long studentId;
-    private String studentName;
+    private Long id;
 
-    private Double totalMarks;
-    private Double obtainedMarks;
+    @NotNull(message = "Exam ID is required")
+    private Long examId;
+
+    @NotNull(message = "Student ID is required")
+    private Long studentId;
+
+    @NotNull(message = "Marks obtained are required")
+    private Double marksObtained;
+
     private String grade;
-    private Boolean isPublished;
+    private Double gpa;
+    private String status;
+    private String remarks;
+
+    // Additional fields for display
+    private String studentName;
+    private String studentIdNumber;
+    private String examTitle;
+    private Double totalMarks;
 }
+

@@ -30,63 +30,63 @@ public class StudentExamRegistrationService {
     /**
      * Register a student for an exam
      */
-    public StudentExamRegistrationDTO registerStudent(Long examId, Long studentId) {
-        Exam exam = examRepository.findById(examId)
-                .orElseThrow(() -> new EntityNotFoundException("Exam not found with ID: " + examId));
-
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentId));
-
-        // Check if already registered
-        registrationRepository.findByExam_ExamIdAndStudent_Id(examId, studentId)
-                .ifPresent(r -> {
-                    throw new IllegalStateException("Student is already registered for this exam.");
-                });
-
-        StudentExamRegistration registration = StudentExamRegistration.builder()
-                .exam(exam)
-                .student(student)
-                .registrationDate(LocalDateTime.now())
-                .build();
-
-        StudentExamRegistration saved = registrationRepository.save(registration);
-        return convertToDTO(saved);
-    }
+//    public StudentExamRegistrationDTO registerStudent(Long examId, Long studentId) {
+//        Exam exam = examRepository.findById(examId)
+//                .orElseThrow(() -> new EntityNotFoundException("Exam not found with ID: " + examId));
+//
+//        Student student = studentRepository.findById(studentId)
+//                .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentId));
+//
+//        // Check if already registered
+//        registrationRepository.findByExam_ExamIdAndStudent_Id(examId, studentId)
+//                .ifPresent(r -> {
+//                    throw new IllegalStateException("Student is already registered for this exam.");
+//                });
+//
+//        StudentExamRegistration registration = StudentExamRegistration.builder()
+//                .exam(exam)
+//                .student(student)
+//                .registrationDate(LocalDateTime.now())
+//                .build();
+//
+//        StudentExamRegistration saved = registrationRepository.save(registration);
+//        return convertToDTO(saved);
+//    }
 
     /**
      * Get all registrations for a specific exam
      */
-    @Transactional(readOnly = true)
-    public List<StudentExamRegistrationDTO> getRegistrationsByExam(Long examId) {
-        List<StudentExamRegistration> registrations = registrationRepository.findByExam_ExamId(examId);
-        return registrations.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<StudentExamRegistrationDTO> getRegistrationsByExam(Long examId) {
+//        List<StudentExamRegistration> registrations = registrationRepository.findByExam_ExamId(examId);
+//        return registrations.stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
 
     /**
      * Get all registrations for a specific student
      */
-    @Transactional(readOnly = true)
-    public List<StudentExamRegistrationDTO> getRegistrationsByStudent(Long studentId) {
-        List<StudentExamRegistration> registrations = registrationRepository.findByStudent_Id(studentId);
-        return registrations.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<StudentExamRegistrationDTO> getRegistrationsByStudent(Long studentId) {
+//        List<StudentExamRegistration> registrations = registrationRepository.findByStudent_Id(studentId);
+//        return registrations.stream()
+//                .map(this::convertToDTO)
+//                .collect(Collectors.toList());
+//    }
 
     /**
      * Get a single registration by exam + student
      */
-    @Transactional(readOnly = true)
-    public StudentExamRegistrationDTO getRegistration(Long examId, Long studentId) {
-        StudentExamRegistration registration = registrationRepository
-                .findByExam_ExamIdAndStudent_Id(examId, studentId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Registration not found for examId=" + examId + " and studentId=" + studentId
-                ));
-        return convertToDTO(registration);
-    }
+//    @Transactional(readOnly = true)
+//    public StudentExamRegistrationDTO getRegistration(Long examId, Long studentId) {
+//        StudentExamRegistration registration = registrationRepository
+//                .findByExam_ExamIdAndStudent_Id(examId, studentId)
+//                .orElseThrow(() -> new EntityNotFoundException(
+//                        "Registration not found for examId=" + examId + " and studentId=" + studentId
+//                ));
+//        return convertToDTO(registration);
+//    }
 
     /**
      * Delete a registration by ID
@@ -107,7 +107,7 @@ public class StudentExamRegistrationService {
                 .registrationDate(registration.getRegistrationDate())
                 .studentId(registration.getStudent() != null ? registration.getStudent().getId() : null)
                 .studentName(registration.getStudent() != null ? registration.getStudent().getName() : null)
-                .examId(registration.getExam() != null ? registration.getExam().getExamId() : null)
+//                .examId(registration.getExam() != null ? registration.getExam().getExamId() : null)
                 .examTitle(registration.getExam() != null ? registration.getExam().getExamTitle() : null) // ✅ FIXED
                 .answers(registration.getAnswers() != null
                         ? registration.getAnswers().stream()
