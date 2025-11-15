@@ -238,7 +238,7 @@ public class StudentService {
         }
     }
 
-    private StudentResponseDTO convertToResponseDTO(Student student) {
+    public StudentResponseDTO convertToResponseDTO(Student student) {
         return StudentResponseDTO.builder()
                 .id(student.getId())
                 .studentId(student.getStudentId())

@@ -1,7 +1,12 @@
 package com.rakib.collegeERPsystem.controller;
 
 import com.rakib.collegeERPsystem.dto.CourseDTO;
+import com.rakib.collegeERPsystem.dto.StudentDTO;
+import com.rakib.collegeERPsystem.dto.StudentResponseDTO;
+import com.rakib.collegeERPsystem.entity.Student;
+import com.rakib.collegeERPsystem.repository.StudentRepository;
 import com.rakib.collegeERPsystem.service.CourseService;
+import com.rakib.collegeERPsystem.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,9 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final StudentRepository studentRepository;
+    private final StudentService studentService;
+
 
     // Get all courses
     @GetMapping
@@ -114,5 +122,20 @@ public class CourseController {
             @RequestBody List<Long> facultyIds) {
         CourseDTO updatedCourse = courseService.updateCourseFaculties(courseId, facultyIds);
         return ResponseEntity.ok(updatedCourse);
+    }
+    @GetMapping("/{courseId}/students")
+    public ResponseEntity<List<StudentResponseDTO>> getStudentsByCourse(@PathVariable Long courseId) {
+        try {
+            List<Student> students = studentRepository.findByCourseId(courseId);
+
+          List<StudentResponseDTO> stu = students.stream().map(student -> studentService.convertToResponseDTO(student)).toList();
+
+
+
+
+            return ResponseEntity.ok(stu);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

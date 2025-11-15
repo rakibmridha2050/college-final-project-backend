@@ -41,4 +41,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query("SELECT COUNT(s) FROM Student s WHERE s.department.id = :departmentId")
     Long countByDepartmentId(@Param("departmentId") Long departmentId);
+
+
+    // Add this method to find students by course
+    @Query("SELECT s FROM Student s JOIN s.courses c WHERE c.id = :courseId")
+    List<Student> findByCourseId(@Param("courseId") Long courseId);
+
+    // Or using the relationship directly if you have it mapped
+    List<Student> findByCoursesId(Long courseId);
 }

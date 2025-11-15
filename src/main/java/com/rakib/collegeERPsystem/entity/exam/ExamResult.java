@@ -1,5 +1,6 @@
 package com.rakib.collegeERPsystem.entity.exam;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rakib.collegeERPsystem.entity.BaseEntity;
 import com.rakib.collegeERPsystem.entity.Faculty;
 import com.rakib.collegeERPsystem.entity.Student;
@@ -19,6 +20,7 @@ public class ExamResult extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_id", nullable = false)
+    @JsonIgnore
     private Exam exam;
 
     @ManyToOne(fetch = FetchType.LAZY)
