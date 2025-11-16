@@ -4,57 +4,62 @@ package com.rakib.collegeERPsystem.entity;
 
 import com.rakib.collegeERPsystem.enums.AttendanceStatus;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 @Entity
-@Table(name = "attendances")
+@Table(name = "attendance", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"student_id", "course_id", "attendance_date", "period_number"})
+})
+@Data
 public class Attendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long enrollmentId;
-    private Long facultyId;
-    private Long classId;
-    private Long sectionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id", nullable = false)
+    private Section section;
+
+    @Column(nullable = false)
     private LocalDate attendanceDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AttendanceStatus status;
 
-    // ✅ Constructors
+    private String remarks;
+
+    private String recordedBy;
+
+    private Integer periodNumber;
+
+    // Constructors
     public Attendance() {}
 
-    public Attendance(Long enrollmentId, Long facultyId, Long classId, Long sectionId, LocalDate attendanceDate, AttendanceStatus status) {
-        this.enrollmentId = enrollmentId;
-        this.facultyId = facultyId;
-        this.classId = classId;
-        this.sectionId = sectionId;
+    public Attendance(Student student, Course course, Section section, LocalDate attendanceDate,
+                      AttendanceStatus status, String remarks, String recordedBy, Integer periodNumber) {
+        this.student = student;
+        this.course = course;
+        this.section = section;
         this.attendanceDate = attendanceDate;
         this.status = status;
+        this.remarks = remarks;
+        this.recordedBy = recordedBy;
+        this.periodNumber = periodNumber;
     }
 
-    // ✅ Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
-    public Long getEnrollmentId() { return enrollmentId; }
-    public void setEnrollmentId(Long enrollmentId) { this.enrollmentId = enrollmentId; }
-
-    public Long getFacultyId() { return facultyId; }
-    public void setFacultyId(Long facultyId) { this.facultyId = facultyId; }
-
-    public Long getClassId() { return classId; }
-    public void setClassId(Long classId) { this.classId = classId; }
-
-    public Long getSectionId() { return sectionId; }
-    public void setSectionId(Long sectionId) { this.sectionId = sectionId; }
-
-    public LocalDate getAttendanceDate() { return attendanceDate; }
-    public void setAttendanceDate(LocalDate attendanceDate) { this.attendanceDate = attendanceDate; }
-
-    public AttendanceStatus getStatus() { return status; }
-    public void setStatus(AttendanceStatus status) { this.status = status; }
 }

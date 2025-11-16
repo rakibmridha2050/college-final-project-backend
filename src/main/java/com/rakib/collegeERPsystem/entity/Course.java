@@ -58,6 +58,4 @@ public class Course extends BaseEntity{
         subjects.add(subject);
         subject.setCourse(this);
     }
-
-
 }

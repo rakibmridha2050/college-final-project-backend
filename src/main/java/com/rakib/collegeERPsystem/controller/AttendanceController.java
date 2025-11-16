@@ -1,7 +1,10 @@
 package com.rakib.collegeERPsystem.controller;
 
 
+import com.rakib.collegeERPsystem.dto.AttendanceFilterRequest;
 import com.rakib.collegeERPsystem.dto.AttendanceRequestDTO;
+import com.rakib.collegeERPsystem.dto.BulkAttendanceRequest;
+import com.rakib.collegeERPsystem.dto.StudentAttendanceDTO;
 import com.rakib.collegeERPsystem.entity.Attendance;
 import com.rakib.collegeERPsystem.service.AttendanceService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,33 +22,37 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-    @RequestMapping("/api/attendances")
-    @CrossOrigin(origins = "http://localhost:4200") // allow Angular dev server
-    public class AttendanceController {
+@RequestMapping("/api/attendances")
+public class AttendanceController {
 
-        private final AttendanceService attendanceService;
 
-        public AttendanceController(AttendanceService attendanceService) {
-            this.attendanceService = attendanceService;
-        }
+    private final AttendanceService attendanceService;
 
-        @PostMapping
-        public ResponseEntity<Attendance> create(@RequestBody AttendanceRequestDTO dto) {
-            return ResponseEntity.ok(attendanceService.saveAttendance(dto));
-        }
+    public AttendanceController(AttendanceService attendanceService) {
+        this.attendanceService = attendanceService;
+    }
 
-        @PostMapping("/bulk")
-        public ResponseEntity<List<Attendance>> createBulk(@RequestBody List<AttendanceRequestDTO> dtos) {
-            return ResponseEntity.ok(attendanceService.saveBulkAttendance(dtos));
-        }
+    @PostMapping("/students")
+    public ResponseEntity<List<StudentAttendanceDTO>> getStudentsForAttendance(
+            @RequestBody AttendanceFilterRequest filterRequest) {
 
-        @GetMapping("/section/{sectionId}")
-        public ResponseEntity<List<Attendance>> getBySectionAndDate(
-                @PathVariable Long sectionId,
-                @RequestParam(required = false) String date) {
+        List<StudentAttendanceDTO> students = attendanceService.getStudentsForAttendance(filterRequest);
+        return ResponseEntity.ok(students);
+    }
 
-            LocalDate targetDate = (date != null) ? LocalDate.parse(date) : LocalDate.now();
-            return ResponseEntity.ok(attendanceService.getAttendanceBySectionAndDate(sectionId, targetDate));
-        }
+    @PostMapping("/record")
+    public ResponseEntity<String> recordAttendance(@RequestBody BulkAttendanceRequest request) {
+        attendanceService.recordBulkAttendance(request);
+        return ResponseEntity.ok("Attendance recorded successfully");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateAttendance(@RequestBody BulkAttendanceRequest request) {
+        // For update, we extract the necessary info and call update service
+        List<StudentAttendanceDTO> records = request.getAttendanceRecords();
+        attendanceService.updateAttendance(records, request.getCourseId(), request.getSectionId(),
+                request.getAttendanceDate(), request.getPeriodNumber());
+        return ResponseEntity.ok("Attendance updated successfully");
+    }
     }
 

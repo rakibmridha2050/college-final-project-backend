@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Section extends BaseEntity{
 
-    private String sectionName; // e.g. "Section A"
+    private String sectionName;
 
     @ManyToOne
     private Classes classes;

@@ -49,4 +49,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     // Or using the relationship directly if you have it mapped
     List<Student> findByCoursesId(Long courseId);
+
+    //new for attendance
+    // Find students by section
+    List<Student> findBySectionIdAndIsActiveTrue(Long sectionId);
+
+    // Find students by section and course enrollment
+    @Query("SELECT s FROM Student s JOIN s.courses c WHERE s.section.id = :sectionId AND c.id = :courseId AND s.isActive = true")
+    List<Student> findBySectionIdAndCourseEnrollment(@Param("sectionId") Long sectionId, @Param("courseId") Long courseId);
 }

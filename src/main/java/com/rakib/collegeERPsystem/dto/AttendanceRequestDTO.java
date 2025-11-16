@@ -8,14 +8,13 @@ import java.time.LocalDateTime;
 
 @Data
 public class AttendanceRequestDTO {
-    private Long enrollmentId;
     private Long studentId;
-    private Long facultyId;
-    private Long classId;
+    private Long courseId;
     private Long sectionId;
     private LocalDate attendanceDate;
-    private AttendanceStatus status;
-
-    // Getters & Setters
+    private String status;  // Changed to String to match frontend
+    private String remarks;
+    private String recordedBy;
+    private Integer periodNumber;
 
 }
