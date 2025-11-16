@@ -1,5 +1,6 @@
 package com.rakib.collegeERPsystem.repository.exam;
 
+import com.rakib.collegeERPsystem.dto.exam.StudentExamResultDTO;
 import com.rakib.collegeERPsystem.entity.exam.Exam;
 import com.rakib.collegeERPsystem.entity.exam.ExamResult;
 import com.rakib.collegeERPsystem.entity.exam.ResultStatus;
@@ -41,4 +42,15 @@ public interface ExamResultRepository extends JpaRepository<ExamResult, Long> {
 
     @Query("SELECT er FROM ExamResult er WHERE er.exam.id = :examId ORDER BY er.marksObtained DESC")
     List<ExamResult> findByExamIdOrderByMarksObtainedDesc(@Param("examId") Long examId);
+
+
+    @Query("SELECT er FROM ExamResult er " +
+            "JOIN FETCH er.student s " +
+            "JOIN FETCH s.department d " +
+            "JOIN FETCH er.exam e " +
+            "JOIN FETCH e.course co " +
+            "ORDER BY s.studentId, e.examTitle, co.courseName")
+    List<ExamResult> fetchAllStudentExamResults();
+
+
 }

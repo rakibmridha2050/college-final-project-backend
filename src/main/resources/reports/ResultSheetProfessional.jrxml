@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResultSheetProfessional" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="550e8400-e29b-41d4-a716-446655440000">
+    <parameter name="CollegeName" class="java.lang.String"/>
+    <parameter name="CollegeLogo" class="java.awt.Image"/>
+    <parameter name="GeneratedDate" class="java.util.Date"/>
+    <queryString>
+        <![CDATA[SELECT s.student_id, s.name, s.program, d.dept_name, d.dept_code,
+                   e.exam_title, e.total_marks, s.gender, s.email, s.current_semester,
+                   er.marks_obtained, er.grade, er.gpa, er.remarks, er.status,
+                   co.course_name
+            FROM collegedb.exam_results er
+            JOIN collegedb.students s ON er.student_id = s.id
+            JOIN collegedb.department d ON d.id = s.dept_id
+            JOIN collegedb.exams e ON e.id = er.exam_id
+            JOIN collegedb.courses co ON e.course_id = co.id
+            ORDER BY s.student_id, e.exam_title, co.course_name]]>
+    </queryString>
+    <field name="student_id" class="java.lang.String"/>
+    <field name="name" class="java.lang.String"/>
+    <field name="program" class="java.lang.String"/>
+    <field name="dept_name" class="java.lang.String"/>
+    <field name="dept_code" class="java.lang.String"/>
+    <field name="exam_title" class="java.lang.String"/>
+    <field name="total_marks" class="java.lang.Double"/>
+    <field name="gender" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+    <field name="current_semester" class="java.lang.Integer"/>
+    <field name="marks_obtained" class="java.lang.Double"/>
+    <field name="grade" class="java.lang.String"/>
+    <field name="gpa" class="java.lang.Double"/>
+    <field name="remarks" class="java.lang.String"/>
+    <field name="status" class="java.lang.String"/>
+    <field name="course_name" class="java.lang.String"/>
+    <group name="StudentGroup">
+        <groupExpression><![CDATA[$F{student_id}]]></groupExpression>
+        <groupHeader>
+            <band height="210">
+                <image>
+                    <reportElement x="0" y="0" width="70" height="70" uuid="f1b6a0a0-1111-4d6b-aaaa-111111111111"/>
+                    <imageExpression><![CDATA[$P{CollegeLogo}]]></imageExpression>
+                </image>
+                <textField>
+                    <reportElement x="80" y="0" width="400" height="30" uuid="f1b6a0a0-2222-4d6b-bbbb-222222222222"/>
+                    <textElement textAlignment="Left">
+                        <font size="18" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$P{CollegeName}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="80" y="35" width="300" height="20" uuid="f1b6a0a0-3333-4d6b-cccc-333333333333"/>
+                    <textElement>
+                        <font size="14" isBold="true"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA["RESULT SHEET"]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="0" y="70" width="300" height="15" uuid="f1b6a0a0-4444-4d6b-dddd-444444444444"/>
+                    <textFieldExpression><![CDATA["Name: " + $F{name}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="300" y="70" width="250" height="15" uuid="f1b6a0a0-5555-4d6b-eeee-555555555555"/>
+                    <textFieldExpression><![CDATA["Student ID: " + $F{student_id}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="0" y="90" width="300" height="15" uuid="f1b6a0a0-6666-4d6b-ffff-666666666666"/>
+                    <textFieldExpression><![CDATA["Department: " + $F{dept_name} + " (" + $F{dept_code} + ")"]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="0" y="110" width="300" height="15" uuid="f1b6a0a0-7777-4d6b-aaaa-777777777777"/>
+                    <textFieldExpression><![CDATA["Program: " + $F{program}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="300" y="90" width="250" height="15" uuid="f1b6a0a0-8888-4d6b-bbbb-888888888888"/>
+                    <textFieldExpression><![CDATA["Semester: " + $F{current_semester}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="300" y="110" width="250" height="15" uuid="f1b6a0a0-9999-4d6b-cccc-999999999999"/>
+                    <textFieldExpression><![CDATA["Email: " + $F{email}]]></textFieldExpression>
+                </textField>
+                <line>
+                    <reportElement x="0" y="135" width="555" height="1" uuid="f1b6a0a0-aaaa-4d6b-dddd-aaaaaaaaaaaa"/>
+                </line>
+                <textField>
+                    <reportElement x="0" y="190" width="180" height="20" uuid="9d6e98df-eab6-47c7-b81d-23c597615c58"/>
+                    <textFieldExpression><![CDATA["course name"]]></textFieldExpression>
+                </textField>
+            </band>
+        </groupHeader>
+    </group>
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="0" width="180" height="25" forecolor="#FFFFFF" backcolor="#4A90E2" uuid="f1b6a0a0-bbbb-4d6b-eeee-bbbbbbbbbbbb"/>
+                <text><![CDATA[Course Name]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="180" y="0" width="80" height="25" forecolor="#FFFFFF" backcolor="#4A90E2" uuid="f1b6a0a0-cccc-4d6b-ffff-cccccccccccc"/>
+                <text><![CDATA[Marks]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="260" y="0" width="80" height="25" forecolor="#FFFFFF" backcolor="#4A90E2" uuid="f1b6a0a0-dddd-4d6b-aaaa-dddddddddddd"/>
+                <text><![CDATA[Total]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="0" width="80" height="25" forecolor="#FFFFFF" backcolor="#4A90E2" uuid="f1b6a0a0-eeee-4d6b-bbbb-eeeeeeeeeeee"/>
+                <text><![CDATA[Grade]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="420" y="0" width="80" height="25" forecolor="#FFFFFF" backcolor="#4A90E2" uuid="f1b6a0a0-ffff-4d6b-cccc-ffffffffffff"/>
+                <text><![CDATA[GPA]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="0" width="55" height="25" forecolor="#FFFFFF" backcolor="#4A90E2" uuid="f1b6a0a0-1111-4d6b-dddd-111111111111"/>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="180" height="20" uuid="f1b6a0a0-2222-4d6b-eeee-222222222222"/>
+                <textFieldExpression><![CDATA[$F{course_name}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="180" y="0" width="80" height="20" uuid="f1b6a0a0-3333-4d6b-ffff-333333333333"/>
+                <textFieldExpression><![CDATA[$F{marks_obtained}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="260" y="0" width="80" height="20" uuid="f1b6a0a0-4444-4d6b-aaaa-444444444444"/>
+                <textFieldExpression><![CDATA[$F{total_marks}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="340" y="0" width="80" height="20" uuid="f1b6a0a0-5555-4d6b-bbbb-555555555555"/>
+                <textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="420" y="0" width="80" height="20" uuid="f1b6a0a0-6666-4d6b-cccc-666666666666"/>
+                <textFieldExpression><![CDATA[$F{gpa}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="500" y="0" width="55" height="20" uuid="f1b6a0a0-7777-4d6b-dddd-777777777777"/>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <summary>
+        <band height="50">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="20" uuid="f1b6a0a0-8888-4d6b-eeee-888888888888"/>
+                <textFieldExpression><![CDATA["Generated on: " + $P{GeneratedDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

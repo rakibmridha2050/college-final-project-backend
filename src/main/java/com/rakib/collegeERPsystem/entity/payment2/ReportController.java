@@ -1,6 +1,7 @@
 package com.rakib.collegeERPsystem.entity.payment2;
 
 
+import com.rakib.collegeERPsystem.service.ExamService;
 import com.rakib.collegeERPsystem.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
@@ -24,12 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/reports")
 @RestController
 public class ReportController {
     private final ReportService reportService;
+    private final ExamService examService;
     @GetMapping("/payments/{format}")
     public ResponseEntity<byte[]> generateReport(@PathVariable String format) throws IOException, JRException {
 
@@ -163,6 +167,27 @@ public class ReportController {
                 .contentType(mediaType)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .body(outputStream.toByteArray());
+    }
+
+    @GetMapping("/results")
+    public List<Map<String, Object>> getExamResults() {
+        return examService.getAllStudentExamResults();
+    }
+
+    @GetMapping("/results/{studentId}")
+    public ResponseEntity<byte[]> downloadStudentExamResultsPdf(@PathVariable Long studentId) throws Exception {
+        List<Map<String, Object>> studentResults = reportService.getExamResultsByStudentId(studentId);
+
+        if(studentResults.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        byte[] pdf = reportService.generateExamResultsPdf("My College Name", studentResults);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=exam_results_" + studentId + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 
 

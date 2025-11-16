@@ -24,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -129,6 +131,33 @@ public class ExamService {
 
         exam.setIsPublished(true);
         examRepository.save(exam);
+    }
+
+    public List<Map<String, Object>> getAllStudentExamResults() {
+        List<ExamResult> results = examResultRepository.fetchAllStudentExamResults();
+
+
+
+        return results.stream().map(er -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("student_id", er.getStudent().getStudentId());
+            map.put("name", er.getStudent().getName());
+            map.put("program", er.getStudent().getProgram());
+            map.put("dept_name", er.getStudent().getDepartment().getDeptName());
+            map.put("dept_code", er.getStudent().getDepartment().getDeptCode());
+            map.put("exam_title", er.getExam().getExamTitle());
+            map.put("total_marks", er.getExam().getTotalMarks());
+            map.put("gender", er.getStudent().getGender());
+            map.put("email", er.getStudent().getEmail());
+            map.put("current_semester", er.getStudent().getCurrentSemester());
+            map.put("marks_obtained", er.getMarksObtained());
+            map.put("grade", er.getGrade());
+            map.put("gpa", er.getGpa());
+            map.put("remarks", er.getRemarks());
+            map.put("status", er.getStatus());
+            map.put("course_name", er.getExam().getCourse().getCourseName());
+            return map;
+        }).toList();
     }
 
     private ExamDTO convertToDTO(Exam exam) {
