@@ -113,4 +113,9 @@ public class StudentController {
         StudentResponseDTO student = studentService.removeCoursesFromStudent(studentId, courseIds);
         return ResponseEntity.ok(student);
     }
+
+    @GetMapping("/count")
+    public long getStudentCount() {
+        return studentService.countStudents();
+    }
 }

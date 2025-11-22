@@ -31,4 +31,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     // Check if course code exists excluding a specific course (for update)
     boolean existsByCourseCodeAndIdNot(String courseCode, Long id);
+
+    long count();
 }

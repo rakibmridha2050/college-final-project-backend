@@ -160,4 +160,8 @@ public class FacultyService {
                 .departmentName(faculty.getDepartment() != null ? faculty.getDepartment().getDeptName() : null)
                 .build();
     }
+
+    public long countFaculty() {
+        return facultyRepository.count();
+    }
 }

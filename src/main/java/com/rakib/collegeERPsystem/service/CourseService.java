@@ -190,6 +190,10 @@ public class CourseService {
         return mapToDTO(saved);
     }
 
+    public long countCourses() {
+        return courseRepository.count();
+    }
+
     // Map entity to DTO
     private CourseDTO mapToDTO(Course course) {
         return CourseDTO.builder()

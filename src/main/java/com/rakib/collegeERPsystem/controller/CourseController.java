@@ -138,4 +138,9 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/count")
+    public long getCourseCount() {
+        return courseService.countCourses();
+    }
 }

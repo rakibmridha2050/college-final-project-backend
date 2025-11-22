@@ -8,5 +8,6 @@ import java.util.List;
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
     List<Faculty> findByDepartmentId(Long departmentId);
     Faculty findByEmail(String email);
+    long count();
 
 }

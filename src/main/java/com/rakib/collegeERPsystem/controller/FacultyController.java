@@ -38,4 +38,9 @@ public class FacultyController {
     public ResponseEntity<List<FacultyDTO>> getFacultyByDepartment(@PathVariable Long deptId) {
         return ResponseEntity.ok(facultyService.getFacultyByDepartmentId(deptId));
     }
+
+    @GetMapping("/count")
+    public long getFacultyCount() {
+        return facultyService.countFaculty();
+    }
 }

@@ -162,6 +162,10 @@ public class StudentService {
         return convertToResponseDTO(updatedStudent);
     }
 
+    public long countStudents() {
+        return studentRepository.count();
+    }
+
     // Conversion methods
     private Student convertToEntity(StudentDTO dto) {
         Student student = Student.builder()
