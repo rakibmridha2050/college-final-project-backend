@@ -5,5 +5,6 @@ public enum AttendanceStatus {
     ABSENT,
     LATE,
     HALF_DAY,
-    EXCUSED
+    EXCUSED ,
+    NOT_TAKEN_YET
 }

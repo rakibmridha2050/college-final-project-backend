@@ -38,7 +38,7 @@ public class Attendance {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AttendanceStatus status;
+    private AttendanceStatus status = AttendanceStatus.NOT_TAKEN_YET;
 
     private String remarks;
 

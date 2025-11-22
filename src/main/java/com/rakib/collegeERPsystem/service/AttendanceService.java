@@ -61,7 +61,7 @@ public class AttendanceService {
                         dto.setStatus(existing.getStatus());
                         dto.setRemarks(existing.getRemarks());
                     } else {
-                        dto.setStatus(AttendanceStatus.PRESENT);
+                        dto.setStatus(AttendanceStatus.NOT_TAKEN_YET);
                     }
 
                     return dto;
