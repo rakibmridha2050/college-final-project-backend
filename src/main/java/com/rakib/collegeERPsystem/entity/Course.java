@@ -41,13 +41,23 @@ public class Course extends BaseEntity{
     private List<Student> students = new ArrayList<>();
 
     // --- Many Faculties can teach a Course ---
+//    @ManyToMany
+//    @JoinTable(
+//            name = "course_faculty",
+//            joinColumns = @JoinColumn(name = "course_id"),
+//            inverseJoinColumns = @JoinColumn(name = "faculty_id")
+//    )
+//    private List<Faculty> faculties = new ArrayList<>();
+
     @ManyToMany
     @JoinTable(
             name = "course_faculty",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "faculty_id")
+            inverseJoinColumns = @JoinColumn(name = "faculty_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"course_id", "faculty_id"})
     )
     private List<Faculty> faculties = new ArrayList<>();
+
 
     // --- One Course can have many Semesters ---
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
